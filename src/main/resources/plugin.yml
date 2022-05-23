@@ -1,0 +1,10 @@
+name: 'IAxPresenceFootsteps'
+version: '${project.version}'
+
+main: 'ch.andre601.iaxpresencefootsteps.IAxPresenceFootsteps'
+
+commands: 
+  pfcreate:
+    description: 'Creates the JSON file for the PresenceFootsteps mod.'
+    usage: '/<command>'
+    default: op
