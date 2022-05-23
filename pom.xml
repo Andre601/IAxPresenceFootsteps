@@ -40,6 +40,11 @@
         </dependency>
         <dependency>
             <groupId>net.kyori</groupId>
+            <artifactId>adventure-api</artifactId>
+            <version>4.10.1</version>
+        </dependency>
+        <dependency>
+            <groupId>net.kyori</groupId>
             <artifactId>adventure-text-minimessage</artifactId>
             <version>4.10.1</version>
         </dependency>
@@ -70,7 +75,7 @@
                 <artifactId>maven-compiler-plugin</artifactId>
                 <version>3.8.1</version>
                 <configuration>
-                    <release>17</release>
+                    <release>16</release>
                 </configuration>
             </plugin>
         </plugins>

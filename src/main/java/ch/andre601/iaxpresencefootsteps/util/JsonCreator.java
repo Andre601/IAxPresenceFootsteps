@@ -3,6 +3,7 @@ package ch.andre601.iaxpresencefootsteps.util;
 import ch.andre601.iaxpresencefootsteps.IAxPresenceFootsteps;
 import ch.andre601.iaxpresencefootsteps.util.constants.IAFolders;
 import ch.andre601.iaxpresencefootsteps.util.constants.Messages;
+import dev.lone.itemsadder.api.CustomBlock;
 import dev.lone.itemsadder.api.ItemsAdder;
 import org.bukkit.block.data.BlockData;
 import org.bukkit.command.CommandSender;
@@ -21,6 +22,7 @@ public class JsonCreator{
     
     private final IAxPresenceFootsteps plugin;
     
+    private final File itemsPacks;
     private final File blockmap;
     private final File cachedBlocks;
     
@@ -28,14 +30,22 @@ public class JsonCreator{
         String pluginDirectory = plugin.getDataFolder().getParent();
         
         this.plugin = plugin;
+        this.itemsPacks = new File(pluginDirectory + IAFolders.IA_ITEMS_PACKS);
         this.blockmap = new File(pluginDirectory + IAFolders.PF_CONFIG, "blockmap.json");
         this.cachedBlocks = new File(pluginDirectory + IAFolders.IA_STORAGE, "real_blocks_note_ids_cache.yml");
     }
     
-    public boolean createFile(CommandSender sender, boolean override){
+    public void createFile(CommandSender sender, boolean override){
+        try{
+            ItemsAdder.Advanced.class.getMethod("getBlockDataByInternalId", int.class);
+        }catch(NoSuchMethodException ex){
+            plugin.getMessageUtil().sendMessage(sender, Messages.OUTDATED_ITEMSADDER);
+            return;
+        }
+        
         if(!cachedBlocks.exists()){
-            plugin.getSenderFactory().sendMessage(sender, Messages.NO_BLOCK_CACHE);
-            return false;
+            plugin.getMessageUtil().sendMessage(sender, Messages.NO_BLOCK_CACHE);
+            return;
         }
     
         JSONObject json = new JSONObject();
@@ -44,40 +54,37 @@ public class JsonCreator{
         try{
             lines = Files.readAllLines(cachedBlocks.toPath());
         }catch(IOException ex){
-            plugin.getSenderFactory().sendMessage(sender, Messages.FILE_READ_ERROR, ex.getMessage());
-            return false;
+            plugin.getMessageUtil().sendMessage(sender, Messages.FILE_READ_ERROR, ex.getMessage());
+            return;
         }
         
         if(lines.isEmpty()){
-            plugin.getSenderFactory().sendMessage(sender, Messages.FILE_EMPTY);
-            return false;
+            plugin.getMessageUtil().sendMessage(sender, Messages.FILE_EMPTY);
+            return;
         }
         
         if(blockmap.exists() && !override){
-            plugin.getSenderFactory().sendMessage(sender, Messages.NO_OVERRIDE_ALLOWED_1);
-            plugin.getSenderFactory().sendMessage(sender, Messages.NO_OVERRIDE_ALLOWED_2);
-            return false;
+            plugin.getMessageUtil().sendMessage(sender, Messages.NO_OVERRIDE_ALLOWED_1);
+            plugin.getMessageUtil().sendMessage(sender, Messages.NO_OVERRIDE_ALLOWED_2);
+            return;
         }
         
+        plugin.getMessageUtil().sendMessage(sender, Messages.BLOCK_COLLECTION_START);
         getBlockmapValues(lines).forEach(json::put);
+        plugin.getMessageUtil().sendMessage(sender, Messages.BLOCK_COLLECTION_END);
         
         try{
-            if(!blockmap.createNewFile()){
-                plugin.getSenderFactory().sendMessage(sender, Messages.BLOCKMAP_NOT_CREATED);
-                return false;
-            }
+            if(blockmap.getParentFile().mkdirs() && blockmap.createNewFile())
+                plugin.getMessageUtil().sendMessage(sender, Messages.BLOCKMAP_FILE_CREATED);
     
             InputStream is = new ByteArrayInputStream(json.toString().getBytes(StandardCharsets.UTF_8));
             
             Files.copy(is, blockmap.toPath(), StandardCopyOption.REPLACE_EXISTING);
             
-            plugin.getSenderFactory().sendMessage(sender, Messages.BLOCKMAP_CREATED_1);
-            plugin.getSenderFactory().sendMessage(sender, Messages.BLOCKMAP_CREATED_2);
-    
-            return true;
+            plugin.getMessageUtil().sendMessage(sender, Messages.BLOCKMAP_CREATED_1);
+            plugin.getMessageUtil().sendMessage(sender, Messages.BLOCKMAP_CREATED_2);
         }catch(IOException ex){
-            plugin.getSenderFactory().sendMessage(sender, Messages.BLOCKMAP_CREATION_EXCEPTION, ex.getMessage());
-            return false;
+            plugin.getMessageUtil().sendMessage(sender, Messages.BLOCKMAP_CREATION_EXCEPTION, ex.getMessage());
         }
     }
     
@@ -92,13 +99,15 @@ public class JsonCreator{
             String namespace = values[0];
             String item = values[1];
             
-            folder = new File(IAFolders.IA_ITEMS_PACKS + namespace);
+            folder = new File(itemsPacks, namespace);
             if(!folder.isDirectory())
                 continue;
+            
             
             File[] files = folder.listFiles(filter);
             if(files == null || files.length == 0)
                 continue;
+            
             
             Iterator<File> fileIterator = Arrays.stream(files).iterator();
             while(fileIterator.hasNext()){
@@ -118,6 +127,7 @@ public class JsonCreator{
                 if(block == null || block.isEmpty())
                     continue;
                 
+                plugin.getLogger().info("Found pf_sound configuration for " + namespace + ":" + item + "! Adding to blockmap.json...");
                 blockmapValues.put(block, sound);
             }
         }
@@ -128,7 +138,7 @@ public class JsonCreator{
     private String getNoteBlockString(String input){
         int value;
         try{
-            value = Integer.parseInt(input);
+            value = Integer.parseInt(input.trim());
         }catch(NumberFormatException ex){
             return null;
         }
