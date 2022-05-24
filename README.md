@@ -43,5 +43,5 @@ items:
 
 After that, save the file(s) and run `/pfcreate` to create the `blockmap.json` file.  
 
-> **warning**  
+> **Warning**  
 > If such a file already exists will you need to add `true` as an argument to the command to override it!
