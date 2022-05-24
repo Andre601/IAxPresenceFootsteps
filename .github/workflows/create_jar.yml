@@ -2,7 +2,7 @@ name: Create Jar for release
 
 on:
   release:
-    type:
+    types:
     - published
     branches:
     - main
