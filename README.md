@@ -13,26 +13,32 @@ The goal is to add a way to automatically generate the `blockmap.json` file used
 
 In order to use this plugin, open any YAML file in ItemsAdder that contains items with the `block` property set.
 
-In the file, add the following (Example using `/ItemsAdder/data/items_packs/itemsadder/blocks.yml`):  
+In the file, add the following (Example using `ruby_ore` in `/ItemsAdder/data/items_packs/itemsadder/blocks.yml`):  
 ```diff
 items:
-  ruby_block:
-    display_name: display-name-ruby_block
-    permission: ruby_block
+  ruby_ore:
+    display_name: display-name-ruby_ore
+    permission: ruby_ore
     resource:
       material: PAPER
       generate: true
       textures:
-      - block/ruby_block.png
+      - block/ruby_ore.png
   specific_properties
     block:
+      hardness: 3
       placed_model:
         type: REAL_NOTE
         break_particles_material: REDSTONE_BLOCK
+      cancel_drops: true
+      break_tools_blacklist:
+      - WOODEN_PICKAXE
+      - STONE_PICKAXE
       break_tools_whitelist:
-      - pickaxe
       - PICKAXE
-+     pf_sound: 'stone'
+      - pickaxe
+      - _hammer
++     pf_sound: 'ore'
 ```
 
 After that, save the file(s) and run `/pfcreate` to create the `blockmap.json` file.  
