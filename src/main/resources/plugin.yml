@@ -20,6 +20,13 @@ commands:
     aliases:
     - 'pfc'
     description: 'Creates the JSON file for the PresenceFootsteps mod.'
-    usage: '/<command> [bool: override]'
+    usage: '/<command> [--override]'
     default: op
     permission: 'iaxpf.command.pfcreate'
+  pfreload:
+    aliases:
+    - 'pfr'
+    description: 'Reloads the plugin configuration.'
+    usage: '/<command>'
+    default: op
+    permission: 'iaxpf.command.pfreload'

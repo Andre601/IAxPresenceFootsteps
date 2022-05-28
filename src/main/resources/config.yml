@@ -1,0 +1,6 @@
+#
+# Should IAxPresenceFootsteps automatically execute /iazip after creating the blockmap.json?
+# When set to true will the plugin use whoever executed the /pfcreate command to also execute /iazip, so make sure
+# you have the right permission to execute the command.
+#
+auto-zip: false

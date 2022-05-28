@@ -3,8 +3,8 @@ package ch.andre601.iaxpresencefootsteps.util;
 import ch.andre601.iaxpresencefootsteps.IAxPresenceFootsteps;
 import ch.andre601.iaxpresencefootsteps.util.constants.IAFolders;
 import ch.andre601.iaxpresencefootsteps.util.constants.Messages;
-import dev.lone.itemsadder.api.CustomBlock;
 import dev.lone.itemsadder.api.ItemsAdder;
+import org.bukkit.Bukkit;
 import org.bukkit.block.data.BlockData;
 import org.bukkit.command.CommandSender;
 import org.bukkit.configuration.file.YamlConfiguration;
@@ -81,8 +81,14 @@ public class JsonCreator{
             
             Files.copy(is, blockmap.toPath(), StandardCopyOption.REPLACE_EXISTING);
             
-            plugin.getMessageUtil().sendMessage(sender, Messages.BLOCKMAP_CREATED_1);
-            plugin.getMessageUtil().sendMessage(sender, Messages.BLOCKMAP_CREATED_2);
+            plugin.getMessageUtil().sendMessage(sender, Messages.BLOCKMAP_CREATED);
+            if(plugin.getConfig().getBoolean("auto-zip")){
+                plugin.getMessageUtil().sendMessage(sender, Messages.BLOCKMAP_IAZIP_TRIGGER);
+                Bukkit.dispatchCommand(sender, "iazip");
+                return;
+            }
+            
+            plugin.getMessageUtil().sendMessage(sender, Messages.BLOCKMAP_IAZIP_REMIND);
         }catch(IOException ex){
             plugin.getMessageUtil().sendMessage(sender, Messages.BLOCKMAP_CREATION_EXCEPTION, ex.getMessage());
         }
@@ -127,7 +133,7 @@ public class JsonCreator{
                 if(block == null || block.isEmpty())
                     continue;
                 
-                plugin.getLogger().info("Found pf_sound configuration for " + namespace + ":" + item + "! Adding to blockmap.json...");
+                plugin.getMessageUtil().sendMessage(Messages.BLOCK_FOUND, namespace, item);
                 blockmapValues.put(block, sound);
             }
         }
@@ -143,6 +149,7 @@ public class JsonCreator{
             return null;
         }
     
+        @SuppressWarnings("deprecation")
         BlockData data = ItemsAdder.Advanced.getBlockDataByInternalId(value);
         if(data == null)
             return null;
