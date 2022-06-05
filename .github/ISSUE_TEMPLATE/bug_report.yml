@@ -50,8 +50,29 @@ body:
     label: Errors
     placeholder: 'https://paste.helpch.at/abcdef'
     description: |-
-      Provide any errors you found in the console.  
-      To do this, copy the error from the console (or the `latest.log` file), open https://paste.helpch.at and paste the content with <kbd>ctrl</kbd>+<kbd>c</kbd> followed by <kbd>ctrl</kbd>+<<kbd>S</kbd>.
-      After that, share the URL in the field below.
+      Provide any errors you found in the console.
+      You may do this by copying the error from the console (or from the `latest.log` file), open https://paste.helpch.at and paste it using <kbd>Ctrl</kbd>+<kbd>C</kbd>.
+      Afterwards, save the paste using <kbd>Ctrl</kbd>+<kbd>S</kbd> and share the URL in the field below.
+      
+      You may leave this empty if no error is available.
+- type: textarea
+  attributes:
+    label: Plugins used
+    placeholder: 'Plugins (4): APlugin, AnotherPlugin, IAxPresenceFootsteps, ItemsAdder'
+    description: 'Please provide the output of `/pl`'
+- type: input
+  attributes:
+    label: Server logs
+    placeholder: 'https://paste.helpch.at/abcdef'
+    description: |-
+      Provide the **complete** output of the `latest.log` file from your server.
+      You may do this by copying the content of your `latest.log` file, open https://paste.helpch.at and paste it using <kbd>Ctrl</kbd>+<kbd>C</kbd>.
+      Afterwards, save the paste using <kbd>Ctrl</kbd>+<kbd>S</kbd> and share the URL in the field below.
   validations:
     required: true
+
+
+
+
+
+
