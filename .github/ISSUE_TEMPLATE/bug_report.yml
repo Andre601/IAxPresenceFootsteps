@@ -60,6 +60,8 @@ body:
     label: Plugins used
     placeholder: 'Plugins (4): APlugin, AnotherPlugin, IAxPresenceFootsteps, ItemsAdder'
     description: 'Please provide the output of `/pl`'
+  validations:
+    required: true
 - type: input
   attributes:
     label: Server logs
