@@ -51,14 +51,14 @@ body:
     placeholder: 'https://paste.helpch.at/abcdef'
     description: |-
       Provide any errors you found in the console.
-      You may do this by copying the error from the console (or from the `latest.log` file), open https://paste.helpch.at and paste it using <kbd>Ctrl</kbd>+<kbd>C</kbd>.
+      You may do this by copying the error from the console (or from the `latest.log` file), open https://paste.helpch.at and paste it using <kbd>Ctrl</kbd>+<kbd>V</kbd>.
       Afterwards, save the paste using <kbd>Ctrl</kbd>+<kbd>S</kbd> and share the URL in the field below.
       
       You may leave this empty if no error is available.
 - type: textarea
   attributes:
     label: Plugins used
-    placeholder: 'Plugins (4): APlugin, AnotherPlugin, IAxPresenceFootsteps, ItemsAdder'
+    placeholder: 'Plugins (4): APlugin, IAxPresenceFootsteps, ItemsAdder, LoneLibs'
     description: 'Please provide the output of `/pl`'
   validations:
     required: true
@@ -68,7 +68,7 @@ body:
     placeholder: 'https://paste.helpch.at/abcdef'
     description: |-
       Provide the **complete** output of the `latest.log` file from your server.
-      You may do this by copying the content of your `latest.log` file, open https://paste.helpch.at and paste it using <kbd>Ctrl</kbd>+<kbd>C</kbd>.
+      You may do this by copying the content of your `latest.log` file, open https://paste.helpch.at and paste it using <kbd>Ctrl</kbd>+<kbd>V</kbd>.
       Afterwards, save the paste using <kbd>Ctrl</kbd>+<kbd>S</kbd> and share the URL in the field below.
   validations:
     required: true
