@@ -1,0 +1,11 @@
+blank_issues_enabled: false
+contact_links:
+  - name: Discord
+    about: "Ask questions in the #iaxpresencefootsteps channel."
+    url: https://discord.gg/6dazXp6
+  - name: Latest release
+    about: "Make sure you're using the latest release of the plugin."
+    url: https://github.com/Andre601/IAxPresenceFootsteps/releases
+  - name: ItemsAdder
+    about: "This plugin requires ItemsAdder to work properly."
+    url: https://www.spigotmc.org/resources/73355/
