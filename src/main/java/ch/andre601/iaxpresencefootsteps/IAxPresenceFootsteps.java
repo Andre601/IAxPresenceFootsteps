@@ -25,12 +25,11 @@ public class IAxPresenceFootsteps extends JavaPlugin{
         console = getServer().getConsoleSender();
         
         jsonCreator = new JsonCreator(this);
-        
-        loadMessageUtil();
     }
     
     @Override
     public void onEnable(){
+        loadMessageUtil();
         getMessageUtil().sendMessage("<grey>Preparing IAxPresenceFootsteps...");
         try{
             Class.forName("org.bukkit.event.server.ServerLoadEvent");
