@@ -31,7 +31,7 @@ items:
       generate: true
       textures:
       - block/ruby_ore.png
-  specific_properties
+  specific_properties:
     block:
       hardness: 3
       placed_model:
