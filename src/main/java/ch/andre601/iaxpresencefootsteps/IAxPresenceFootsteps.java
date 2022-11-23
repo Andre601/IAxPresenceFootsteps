@@ -5,17 +5,24 @@ import ch.andre601.iaxpresencefootsteps.commands.PFReload;
 import ch.andre601.iaxpresencefootsteps.events.ServerEvents;
 import ch.andre601.iaxpresencefootsteps.util.JsonCreator;
 
+import ch.andre601.iaxpresencefootsteps.util.constants.Messages;
+import ch.andre601.iaxpresencefootsteps.util.generator.JSONCreator;
+import ch.andre601.iaxpresencefootsteps.util.generator.NewIAJSONCreator;
+import ch.andre601.iaxpresencefootsteps.util.generator.OldIAJSONCreator;
 import ch.andre601.iaxpresencefootsteps.util.message.MessageUtil;
 import ch.andre601.iaxpresencefootsteps.util.message.PaperMessageUtil;
 import ch.andre601.iaxpresencefootsteps.util.message.SpigotMessageUtils;
+import dev.lone.itemsadder.api.ItemsAdder;
 import org.bukkit.command.ConsoleCommandSender;
 import org.bukkit.command.PluginCommand;
 import org.bukkit.plugin.PluginManager;
 import org.bukkit.plugin.java.JavaPlugin;
 
+import java.nio.file.Path;
+
 public class IAxPresenceFootsteps extends JavaPlugin{
     private MessageUtil messageUtil;
-    private JsonCreator jsonCreator;
+    private JSONCreator jsonCreator;
     private ConsoleCommandSender console;
     
     @Override
@@ -23,8 +30,6 @@ public class IAxPresenceFootsteps extends JavaPlugin{
         saveDefaultConfig();
         
         console = getServer().getConsoleSender();
-        
-        jsonCreator = new JsonCreator(this);
     }
     
     @Override
@@ -47,7 +52,7 @@ public class IAxPresenceFootsteps extends JavaPlugin{
         return messageUtil;
     }
     
-    public JsonCreator getJsonCreator(){
+    public JSONCreator getJsonCreator(){
         return jsonCreator;
     }
     
@@ -61,6 +66,26 @@ public class IAxPresenceFootsteps extends JavaPlugin{
         getMessageUtil().sendMessage("<grey>Server marked as 'done'! Checking for ItemsAdder...");
         if(!manager.isPluginEnabled("ItemsAdder")){
             getMessageUtil().sendMessage("<red>ItemsAdder is not enabled! IAxPresenceFootsteps requires it to work.");
+            manager.disablePlugin(this);
+            return;
+        }
+        
+        try{
+            ItemsAdder.Advanced.class.getMethod("getBlockDataByInternalId", int.class);
+        }catch(NoSuchMethodException ex){
+            getMessageUtil().sendMessage(Messages.OUTDATED_ITEMSADDER);
+            manager.disablePlugin(this);
+            return;
+        }
+    
+        Path iaFolder = getDataFolder().getParentFile().toPath().resolve("ItemsAdder");
+        if(iaFolder.resolve("contens").toFile().exists() && iaFolder.resolve("contens").toFile().isDirectory()){
+            jsonCreator = new NewIAJSONCreator(this);
+        }else
+        if(iaFolder.resolve("data").toFile().exists() && iaFolder.resolve("data").toFile().isDirectory()){
+            jsonCreator = new OldIAJSONCreator(this);
+        }else{
+            getMessageUtil().sendMessage("<red>Couldn't resolve ItemsAdder add-on folder structure!");
             manager.disablePlugin(this);
             return;
         }
