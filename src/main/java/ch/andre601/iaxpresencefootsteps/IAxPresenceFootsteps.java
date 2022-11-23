@@ -3,7 +3,6 @@ package ch.andre601.iaxpresencefootsteps;
 import ch.andre601.iaxpresencefootsteps.commands.PFCreate;
 import ch.andre601.iaxpresencefootsteps.commands.PFReload;
 import ch.andre601.iaxpresencefootsteps.events.ServerEvents;
-import ch.andre601.iaxpresencefootsteps.util.JsonCreator;
 
 import ch.andre601.iaxpresencefootsteps.util.constants.Messages;
 import ch.andre601.iaxpresencefootsteps.util.generator.JSONCreator;
@@ -79,7 +78,7 @@ public class IAxPresenceFootsteps extends JavaPlugin{
         }
     
         Path iaFolder = getDataFolder().getParentFile().toPath().resolve("ItemsAdder");
-        if(iaFolder.resolve("contens").toFile().exists() && iaFolder.resolve("contens").toFile().isDirectory()){
+        if(iaFolder.resolve("contents").toFile().exists() && iaFolder.resolve("contents").toFile().isDirectory()){
             jsonCreator = new NewIAJSONCreator(this);
         }else
         if(iaFolder.resolve("data").toFile().exists() && iaFolder.resolve("data").toFile().isDirectory()){

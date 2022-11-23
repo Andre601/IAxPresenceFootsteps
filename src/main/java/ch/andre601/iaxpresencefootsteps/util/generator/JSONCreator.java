@@ -30,17 +30,17 @@ public interface JSONCreator{
             getPlugin().getMessageUtil().sendMessage(sender, Messages.NO_BLOCK_CACHE);
             return;
         }
-    
+        
         JSONObject json = new JSONObject();
         List<String> lines;
-    
+        
         try{
             lines = Files.readAllLines(getBlockCacheFile().toPath());
         }catch(IOException ex){
             getPlugin().getMessageUtil().sendMessage(sender, Messages.FILE_READ_ERROR, ex.getMessage());
             return;
         }
-    
+        
         if(lines.isEmpty()){
             getPlugin().getMessageUtil().sendMessage(sender, Messages.FILE_EMPTY);
             return;
@@ -51,7 +51,7 @@ public interface JSONCreator{
             getPlugin().getMessageUtil().sendMessage(sender, Messages.NO_OVERRIDE_ALLOWED_2);
             return;
         }
-    
+        
         getPlugin().getMessageUtil().sendMessage(sender, Messages.BLOCK_COLLECTION_START);
         resolveBlockmapValues(sender, lines).forEach(json::put);
         getPlugin().getMessageUtil().sendMessage(sender, Messages.BLOCK_COLLECTION_END);
@@ -59,10 +59,10 @@ public interface JSONCreator{
         try{
             if(getBlockmapFile().getParentFile().mkdirs() && getBlockmapFile().createNewFile())
                 getPlugin().getMessageUtil().sendMessage(sender, Messages.BLOCKMAP_FILE_CREATED);
-    
+            
             InputStream is = new ByteArrayInputStream(json.toString().getBytes(StandardCharsets.UTF_8));
             Files.copy(is, getBlockmapFile().toPath(), StandardCopyOption.REPLACE_EXISTING);
-    
+            
             getPlugin().getMessageUtil().sendMessage(sender, Messages.BLOCKMAP_CREATED);
         }catch(IOException ex){
             getPlugin().getMessageUtil().sendMessage(sender, Messages.BLOCKMAP_CREATION_EXCEPTION, ex.getMessage());
@@ -74,7 +74,7 @@ public interface JSONCreator{
             Bukkit.dispatchCommand(sender, "iazip");
             return;
         }
-    
+        
         getPlugin().getMessageUtil().sendMessage(sender, Messages.BLOCKMAP_IAZIP_REMIND);
     }
     
@@ -95,28 +95,23 @@ public interface JSONCreator{
             File[] files = folder.listFiles(getFilter());
             if(files == null || files.length == 0)
                 continue;
-    
-            Iterator<File> fileIterator = Arrays.stream(files).iterator();
-            while(fileIterator.hasNext()){
-                File file = fileIterator.next();
-                if(file == null)
-                    continue;
-    
+            
+            Arrays.stream(files).filter(Objects::nonNull).forEach(file -> {
                 YamlConfiguration config = YamlConfiguration.loadConfiguration(file);
                 if(!config.contains("items." + item + ".specific_properties.block.pf_sound"))
-                    continue;
+                    return;
                 
                 String sound = config.getString("items." + item + ".specific_properties.block.pf_sound", null);
                 if(sound == null || sound.isEmpty())
-                    continue;
+                    return;
                 
                 String block = resolveNoteBlockValues(values[2]);
                 if(block == null || block.isEmpty())
-                    continue;
-    
+                    return;
+                
                 getPlugin().getMessageUtil().sendMessage(sender, Messages.BLOCK_FOUND, namespace, item);
                 blockmapValues.put(block, sound);
-            }
+            });
         }
         
         return blockmapValues;
