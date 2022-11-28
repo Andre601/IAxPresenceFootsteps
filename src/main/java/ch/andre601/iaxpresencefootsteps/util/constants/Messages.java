@@ -15,7 +15,7 @@ public class Messages{
         "<red>Use <grey><click:run_command:/pfcreate --override><hover:show_text:'<grey>Click to execute command'>" + 
         "/pfcreate --override</hover></click></grey> to force an override.";
     
-    public static final String BLOCK_COLLECTION_START = "<grey>Collecting valid custom blocks. Check console for progress...";
+    public static final String BLOCK_COLLECTION_START = "<grey>Collecting valid custom blocks...";
     public static final String BLOCK_COLLECTION_END = "<green>Collecting of custom blocks complete! Creating <grey>blockmap.json</grey>...";
     
     public static final String BLOCKMAP_FILE_CREATED = "<green>No <grey>blockmap.json</grey> found. Creating new one...";
