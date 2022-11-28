@@ -6,8 +6,8 @@ import ch.andre601.iaxpresencefootsteps.events.ServerEvents;
 
 import ch.andre601.iaxpresencefootsteps.util.constants.Messages;
 import ch.andre601.iaxpresencefootsteps.util.generator.JSONCreator;
-import ch.andre601.iaxpresencefootsteps.util.generator.NewIAJSONCreator;
-import ch.andre601.iaxpresencefootsteps.util.generator.OldIAJSONCreator;
+import ch.andre601.iaxpresencefootsteps.util.generator.IAJSONCreator;
+import ch.andre601.iaxpresencefootsteps.util.generator.LegacyIAJSONCreator;
 import ch.andre601.iaxpresencefootsteps.util.message.MessageUtil;
 import ch.andre601.iaxpresencefootsteps.util.message.PaperMessageUtil;
 import ch.andre601.iaxpresencefootsteps.util.message.SpigotMessageUtils;
@@ -79,10 +79,12 @@ public class IAxPresenceFootsteps extends JavaPlugin{
     
         Path iaFolder = getDataFolder().getParentFile().toPath().resolve("ItemsAdder");
         if(iaFolder.resolve("contents").toFile().exists() && iaFolder.resolve("contents").toFile().isDirectory()){
-            jsonCreator = new NewIAJSONCreator(this);
+            jsonCreator = new IAJSONCreator(this);
+            getMessageUtil().sendMessage("<grey>Found contents folder! Using new JSONCreator for ItemsAdder 3.3.0+...");
         }else
         if(iaFolder.resolve("data").toFile().exists() && iaFolder.resolve("data").toFile().isDirectory()){
-            jsonCreator = new OldIAJSONCreator(this);
+            jsonCreator = new LegacyIAJSONCreator(this);
+            getMessageUtil().sendMessage("<grey>Found data folder! Using old JSONCreator for ItemsAdder 3.2.5 and older...");
         }else{
             getMessageUtil().sendMessage("<red>Couldn't resolve ItemsAdder add-on folder structure!");
             manager.disablePlugin(this);

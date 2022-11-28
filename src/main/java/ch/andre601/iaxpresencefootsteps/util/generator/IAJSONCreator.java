@@ -4,27 +4,27 @@ import ch.andre601.iaxpresencefootsteps.IAxPresenceFootsteps;
 
 import java.io.File;
 
-public class OldIAJSONCreator implements JSONCreator{
+public class IAJSONCreator implements JSONCreator{
     
     private final IAxPresenceFootsteps plugin;
     
-    private final File itemsPacks;
+    private final File contents;
     private final File blockmap;
     private final File cachedBlocks;
     
-    public OldIAJSONCreator(IAxPresenceFootsteps plugin){
+    public IAJSONCreator(IAxPresenceFootsteps plugin){
         this.plugin = plugin;
         
         String pluginsDirectory = plugin.getDataFolder().getParent();
         
-        this.itemsPacks = new File(pluginsDirectory + "/ItemsAdder/data/items_packs/");
-        this.blockmap = new File(pluginsDirectory + "/ItemsAdder/data/resource_pack/assets/presencefootsteps/config/", "blockmap.json");
+        this.contents = new File(pluginsDirectory + "/ItemsAdder/contents/");
+        this.blockmap = new File(pluginsDirectory + "/ItemsAdder/contents/presencefootsteps/resourcepack/presencefootsteps/config/blockmap.json");
         this.cachedBlocks = new File(pluginsDirectory + "/ItemsAdder/storage/", "real_blocks_note_ids_cache.yml");
     }
     
     @Override
     public File resolveConfigsFolder(String namespace){
-        return new File(this.itemsPacks, namespace + "/");
+        return new File(this.contents, namespace + "/configs/");
     }
     
     @Override
