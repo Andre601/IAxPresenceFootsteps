@@ -20,7 +20,7 @@ The goal is to add a way to automatically generate the `blockmap.json` file used
 
 In order to use this plugin, open any YAML file in ItemsAdder that contains items with the `block` property set.
 
-In the file, add the following (Example using `ruby_ore` in `/ItemsAdder/data/items_packs/itemsadder/blocks.yml`):  
+In the file, add the following (Example using `ruby_ore` in `/ItemsAdder/data/items_packs/itemsadder/blocks.yml` from ItemsAdder 3.2.5):  
 ```diff
 items:
   ruby_ore:
