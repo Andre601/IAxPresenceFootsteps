@@ -1,0 +1,14 @@
+name: 'IAxPresenceFootsteps'
+description: 'Plugin that allows to create a blockmap.json file for PresenceFootsteps using ItemsAdder Blocks.'
+version: '${project.version}'
+author: 'Andre601'
+
+main: 'ch.andre601.iaxpf.IAxPresenceFootsteps'
+
+api-version: '1.21'
+
+dependencies:
+  server:
+    ItemsAdder:
+      load: BEFORE
+      required: false
