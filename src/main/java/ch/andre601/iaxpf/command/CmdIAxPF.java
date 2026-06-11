@@ -17,7 +17,7 @@ public class CmdIAxPF{
         CommandSender sender = source.getSender();
         sender.sendRichMessage("<grey>Creating blockmap.json file...");
         
-        if(plugin.getBlockmapCreator().create(sender, verbose)){
+        if(plugin.getBlockmapCreator().create(sender, verbose, false)){
             sender.sendRichMessage("<green>blockmap.json creation completed!");
         }else{
             sender.sendRichMessage("<gold>There were errors while creating the blockmap.json...");

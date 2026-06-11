@@ -1,6 +1,7 @@
 package ch.andre601.iaxpf;
 
 import ch.andre601.iaxpf.command.CmdIAxPF;
+import ch.andre601.iaxpf.event.CommandEvents;
 import ch.andre601.iaxpf.util.BlockmapCreator;
 import io.papermc.paper.command.brigadier.CommandSourceStack;
 import org.bukkit.Bukkit;
@@ -27,6 +28,10 @@ public class IAxPresenceFootsteps extends JavaPlugin{
             Bukkit.getPluginManager().disablePlugin(this);
             return;
         }
+        
+        saveDefaultConfig();
+        
+        getServer().getPluginManager().registerEvents(new CommandEvents(this), this);
         
         PaperCommandManager<CommandSourceStack> manager = PaperCommandManager.builder()
             .executionCoordinator(ExecutionCoordinator.simpleCoordinator())

@@ -21,16 +21,21 @@ public class BlockmapCreator{
     
     private final Gson gson = new Gson();
     
+    private final IAxPresenceFootsteps plugin;
     private final Path blockmapPath;
     
     public BlockmapCreator(IAxPresenceFootsteps plugin){
+        this.plugin = plugin;
         this.blockmapPath = plugin.getDataPath().getParent().resolve(
             "ItemsAdder/contents/presencefootsteps/" +
                 "resourcepack/presencefootsteps/config/blockmap.json"
         );
     }
     
-    public boolean create(CommandSender sender, boolean verbose){
+    public boolean create(CommandSender sender, boolean verbose, boolean automatic){
+        if(plugin.getConfig().getBoolean("verboseEnabled"))
+            verbose = true; // override verbose flag if set in config.
+        
         Map<String, String> blockMap = new HashMap<>();
         for(String namespacedId : CustomBlock.getNamespacedIdsInRegistry()){
             CustomBlock block = CustomBlock.getInstance(namespacedId);
@@ -127,7 +132,10 @@ public class BlockmapCreator{
         }
         
         sender.sendRichMessage("<green>Successfully created blockmap.json file!");
-        sender.sendRichMessage("<green>Run <grey>/iazip</grey> to apply it to the resource pack!");
+        
+        if(!automatic)
+            sender.sendRichMessage("<green>Run <grey>/iazip</grey> to apply it to the resource pack!");
+        
         return true;
     }
 }

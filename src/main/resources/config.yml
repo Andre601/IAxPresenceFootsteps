@@ -1,0 +1,18 @@
+#
+# Should the plugin automatically create the blockmap.json file when
+# /iazip is being executed?
+#
+# This will simply make the plugin create the file before ItemsAdder
+# starts processing the command.
+# This is effectively the same as executing /iaxpf create followed by
+# /iazip.
+#
+createOnIazip: false
+
+#
+# Should verbose be enabled by default?
+# When set to true, will /iaxpf create be treated as if you added the
+# --verbose flag to it.
+# This will also affect the above auto-creation, making it verbose too.
+#
+verboseEnabled: false
